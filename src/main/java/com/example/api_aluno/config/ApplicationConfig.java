@@ -1,5 +1,11 @@
 package com.example.api_aluno.config;
 
+import com.example.api_aluno.application.UsuarioService;
+import com.example.api_aluno.ports.in.AuthUseCases;
+import com.example.api_aluno.ports.out.PasswordEncoderPort;
+import com.example.api_aluno.ports.out.TokenProviderPort;
+import com.example.api_aluno.ports.out.UsuarioRepositoryPort;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /*O que faz: expõe beans para os casos de uso (ports de entrada)
@@ -13,5 +19,11 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ApplicationConfig {
-    // Beans dos casos de uso serão definidos nas próximas etapas
+
+    @Bean
+    AuthUseCases authUseCases(UsuarioRepositoryPort usuarioRepositoryPort,
+                              PasswordEncoderPort passwordEncoderPort,
+                              TokenProviderPort tokenProviderPort) {
+        return new UsuarioService(usuarioRepositoryPort, passwordEncoderPort, tokenProviderPort);
+    }
 }
