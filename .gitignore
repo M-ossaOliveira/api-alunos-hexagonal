@@ -1,17 +1,18 @@
-# Maven / Build
+# Build output
 target/
-!.mvn/wrapper/maven-wrapper.jar
 
 # IDEs
 .idea/
 *.iml
-.project
-.classpath
-.settings/
-
-# OS
-.DS_Store
-Thumbs.db
+*.ipr
+*.iws
 
 # Logs
 *.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Avoid committing generated binaries
+*.jar
