@@ -1,7 +1,9 @@
 package com.example.api_aluno.mapper;
+
 import com.example.api_aluno.adapters.out.persistence.entity.*;
 import com.example.api_aluno.domain.aluno.Aluno;
-import org.mapstruct.*;import java.util.UUID;
+import org.mapstruct.*;
+import java.util.UUID;
 
 @Mapper(componentModel="spring")
 public interface AlunoEntityMapper{

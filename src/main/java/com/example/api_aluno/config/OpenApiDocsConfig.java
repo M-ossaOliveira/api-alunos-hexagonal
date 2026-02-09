@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OpenApiDocsConfig {
-
     @Bean
     public OpenAPI apiInfo() {
         return new OpenAPI()
@@ -17,13 +16,12 @@ public class OpenApiDocsConfig {
                         .title("API de Alunos - Hexagonal")
                         .description("API para gestão de alunos e turmas, com autenticação JWT e exportações CSV/XLSX.")
                         .version("v1.0.0")
-                        .contact(new Contact().name("Time da Mariana").email("dev@exemplo.com")))
+                        .contact(new Contact().name("Equipe da API").email("dev@exemplo.com")))
                 .components(new Components()
                         .addSecuritySchemes("bearer-jwt", new SecurityScheme()
                                 .type(SecurityScheme.Type.HTTP)
                                 .scheme("bearer")
                                 .bearerFormat("JWT")))
-                .addSecurityItem(new SecurityRequirement().addList("bearer-jwt"))
-                ;
+                .addSecurityItem(new SecurityRequirement().addList("bearer-jwt"));
     }
 }

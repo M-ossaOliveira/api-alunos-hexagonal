@@ -6,7 +6,6 @@ import com.example.api_aluno.ports.in.AuthUseCases;
 import com.example.api_aluno.ports.out.PasswordEncoderPort;
 import com.example.api_aluno.ports.out.TokenProviderPort;
 import com.example.api_aluno.ports.out.UsuarioRepositoryPort;
-
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -18,11 +17,9 @@ import java.util.UUID;
  * -TokenProviderPort(gerar/validar/parse de Token)
  * É chamado pelos controllers de auth*/
 public class UsuarioService implements AuthUseCases {
-
     private final UsuarioRepositoryPort usuarioRepositoryPort;
     private final PasswordEncoderPort passwordEncoderPort;
     private final TokenProviderPort tokenProviderPort;
-
     public UsuarioService(UsuarioRepositoryPort usuarioRepositoryPort,
                           PasswordEncoderPort passwordEncoderPort,
                           TokenProviderPort tokenProviderPort) {
@@ -30,7 +27,6 @@ public class UsuarioService implements AuthUseCases {
         this.passwordEncoderPort = passwordEncoderPort;
         this.tokenProviderPort = tokenProviderPort;
     }
-
     @Override
     public Usuario registrar(String username, String senhaPura, Set<Perfil> perfis) {
         if (username == null || username.isBlank()) {
@@ -46,7 +42,6 @@ public class UsuarioService implements AuthUseCases {
         Usuario novo = new Usuario(UUID.randomUUID(), username, hash, perfis);
         return usuarioRepositoryPort.salvar(novo);
     }
-
     @Override
     public String login(String username, String senhaPura) {
         Optional<Usuario> opt = usuarioRepositoryPort.buscarPorUsername(username);
@@ -56,7 +51,6 @@ public class UsuarioService implements AuthUseCases {
         }
         return tokenProviderPort.generateToken(usuario);
     }
-
     @Override
     public Optional<Usuario> buscarPorUsername(String username) {
         return usuarioRepositoryPort.buscarPorUsername(username);

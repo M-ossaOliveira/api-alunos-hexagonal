@@ -13,7 +13,8 @@ public interface AlunoUseCases {
     List<Aluno> listar();
     Aluno atualizar(UUID id, String nome, String email, UUID turmaId);
     void excluir(UUID id);
-
-    // Novo: filtro paginado
+    // Filtro paginado
     Page<Aluno> filtrar(String nome, String email, Pageable pageable);
+    // NOVO: todos os alunos de uma turma
+    List<Aluno> listarPorTurma(UUID turmaId);
 }

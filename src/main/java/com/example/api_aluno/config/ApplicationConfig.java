@@ -32,6 +32,7 @@ public class ApplicationConfig {
     AlunoUseCases alunoUseCases(AlunoRepositoryPort alunoRepositoryPort,
                                 TurmaRepositoryPort turmaRepositoryPort) {
         return new AlunoService(alunoRepositoryPort, turmaRepositoryPort);
+
     }
 
     @Bean

@@ -9,14 +9,9 @@ public class AlunoResponse {
     private UUID turmaId;
 
     public AlunoResponse() {}
-
     public AlunoResponse(UUID id, String nome, String email, UUID turmaId) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.turmaId = turmaId;
+        this.id = id; this.nome = nome; this.email = email; this.turmaId = turmaId;
     }
-
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
     public String getNome() { return nome; }

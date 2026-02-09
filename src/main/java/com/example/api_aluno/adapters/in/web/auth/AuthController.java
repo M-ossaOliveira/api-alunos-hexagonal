@@ -9,7 +9,6 @@ import com.example.api_aluno.ports.in.AuthUseCases;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.media.*;
@@ -24,10 +23,7 @@ public class AuthController {
         this.authUseCases = authUseCases;
     }
 
-    @Operation(
-            summary = "Registra um novo usuário",
-            description = "Cria um usuário com username único e perfis (ROLE_USER, ROLE_ADMIN)."
-    )
+    @Operation(summary = "Registra um novo usuário", description = "Cria um usuário com username único e perfis (ROLE_USER, ROLE_ADMIN).")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Usuário criado",
                     content = @Content(schema = @Schema(implementation = UsuarioResponse.class))),
@@ -40,10 +36,7 @@ public class AuthController {
                 .body(new UsuarioResponse(u.getId(), u.getUsername(), u.getPerfis()));
     }
 
-    @Operation(
-            summary = "Autentica e retorna um token JWT",
-            description = "Valida as credenciais e retorna um token JWT para uso nos demais endpoints protegidos."
-    )
+    @Operation(summary = "Autentica e retorna um token JWT", description = "Valida as credenciais e retorna um token JWT para uso nos demais endpoints protegidos.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Login ok",
                     content = @Content(schema = @Schema(implementation = LoginResponse.class))),

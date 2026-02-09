@@ -1,10 +1,8 @@
-
 package com.example.api_aluno.application;
 
 import com.example.api_aluno.domain.turma.Turma;
 import com.example.api_aluno.ports.in.TurmaUseCases;
 import com.example.api_aluno.ports.out.TurmaRepositoryPort;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,11 +10,9 @@ import java.util.UUID;
 /** Implementação dos casos de uso de Turma */
 public class TurmaService implements TurmaUseCases {
     private final TurmaRepositoryPort turmaRepository;
-
     public TurmaService(TurmaRepositoryPort turmaRepository) {
         this.turmaRepository = turmaRepository;
     }
-
     @Override
     public Turma criar(String nome, Integer anoLetivo) {
         if (nome == null || nome.isBlank()) {
@@ -31,17 +27,14 @@ public class TurmaService implements TurmaUseCases {
         Turma nova = new Turma(UUID.randomUUID(), nome, anoLetivo);
         return turmaRepository.salvar(nova);
     }
-
     @Override
     public Optional<Turma> buscarPorId(UUID id) {
         return turmaRepository.buscarPorId(id);
     }
-
     @Override
     public List<Turma> listar() {
         return turmaRepository.listar();
     }
-
     @Override
     public Turma atualizar(UUID id, String nome, Integer anoLetivo) {
         if (id == null) throw new IllegalArgumentException("id é obrigatório");
@@ -50,7 +43,6 @@ public class TurmaService implements TurmaUseCases {
         Turma atualizada = new Turma(id, nome, anoLetivo);
         return turmaRepository.salvar(atualizada);
     }
-
     @Override
     public void excluir(UUID id) {
         if (id == null) throw new IllegalArgumentException("id é obrigatório");

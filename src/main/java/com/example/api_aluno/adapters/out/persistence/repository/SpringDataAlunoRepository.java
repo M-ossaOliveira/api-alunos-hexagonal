@@ -1,4 +1,3 @@
-
 package com.example.api_aluno.adapters.out.persistence.repository;
 
 import com.example.api_aluno.adapters.out.persistence.entity.AlunoEntity;
@@ -11,7 +10,9 @@ import java.util.UUID;
 public interface SpringDataAlunoRepository extends JpaRepository<AlunoEntity,UUID>{
     Optional<AlunoEntity> findByEmail(String email);
     boolean existsByEmail(String email);
-
     Page<AlunoEntity> findByNomeContainingIgnoreCaseOrEmailContainingIgnoreCase(
             String nome, String email, Pageable pageable);
+
+    // NOVO: todos os alunos de uma turma
+    List<AlunoEntity> findByTurma_Id(UUID turmaId);
 }

@@ -1,4 +1,5 @@
 package com.example.api_aluno.adapters.in.web.turma.dto;
+
 import java.util.UUID;
 
 public class TurmaResponse{

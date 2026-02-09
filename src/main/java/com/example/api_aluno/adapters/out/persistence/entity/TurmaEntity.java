@@ -1,6 +1,8 @@
 package com.example.api_aluno.adapters.out.persistence.entity;
+
 import jakarta.persistence.*;
 import java.util.*;
+
 @Entity @Table(name="turmas")
 public class TurmaEntity {
     @Id @Column(name="id",nullable=false,updatable=false)
@@ -9,6 +11,7 @@ public class TurmaEntity {
     private String nome;
     @Column(name="ano_letivo",nullable=false)
     private Integer anoLetivo;
+
     @OneToMany(mappedBy="turma", cascade=CascadeType.ALL)
     private Set<AlunoEntity> alunos=new HashSet<>();
 

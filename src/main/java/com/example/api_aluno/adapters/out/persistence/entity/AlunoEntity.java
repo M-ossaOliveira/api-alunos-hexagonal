@@ -1,6 +1,8 @@
 package com.example.api_aluno.adapters.out.persistence.entity;
+
 import jakarta.persistence.*;
 import java.util.UUID;
+
 @Entity @Table(name="alunos")
 public class AlunoEntity {
     @Id @Column(name="id",nullable=false,updatable=false)
@@ -12,7 +14,6 @@ public class AlunoEntity {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="turma_id")
     private TurmaEntity turma;
-
     public AlunoEntity(){}
     public AlunoEntity(UUID id,String nome,String email,TurmaEntity turma){
         this.id=id;this.nome=nome;this.email=email;this.turma=turma;

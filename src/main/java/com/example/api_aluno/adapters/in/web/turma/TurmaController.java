@@ -1,15 +1,16 @@
 package com.example.api_aluno.adapters.in.web.turma;
 
 import com.example.api_aluno.adapters.in.web.turma.dto.*;
+import com.example.api_aluno.adapters.in.web.aluno.dto.AlunoResponse;
 import com.example.api_aluno.domain.turma.Turma;
 import com.example.api_aluno.ports.in.TurmaUseCases;
+import com.example.api_aluno.ports.in.AlunoUseCases;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-
 import jakarta.validation.Valid;
 import java.util.stream.Collectors;
 import java.util.UUID;
-
+import java.util.List;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.*;
@@ -21,7 +22,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/turmas")
 public class TurmaController{
     private final TurmaUseCases useCases;
-    public TurmaController(TurmaUseCases u){this.useCases=u;}
+    private final AlunoUseCases alunoUseCases;
+    public TurmaController(TurmaUseCases u, AlunoUseCases alunoUseCases){this.useCases=u; this.alunoUseCases = alunoUseCases;}
 
     @Operation(
             summary = "Cria nova turma",
@@ -37,7 +39,8 @@ public class TurmaController{
     @PostMapping
     public ResponseEntity<TurmaResponse> criar(@Valid @RequestBody TurmaRequest req)
     {
-        Turma t=useCases.criar(req.getNome(),req.getAnoLetivo()); return ResponseEntity.status(HttpStatus.CREATED).body(new TurmaResponse(t.getId(),t.getNome(),t.getAnoLetivo()));}
+        Turma t=useCases.criar(req.getNome(),req.getAnoLetivo());
+        return ResponseEntity.status(HttpStatus.CREATED).body(new TurmaResponse(t.getId(),t.getNome(),t.getAnoLetivo()));}
 
     @Operation(
             summary = "Busca turma por ID",
@@ -57,7 +60,8 @@ public class TurmaController{
                 .buscarPorId(id)
                 .map(
                         t->ResponseEntity.ok(
-                                new TurmaResponse(t.getId(),t.getNome(),t.getAnoLetivo())
+                                new TurmaResponse(t.getId(),t.getNome(),t.getAnoLetivo()
+                                )
                                             )
                     ).orElseGet(()->ResponseEntity.notFound().build());
     }
@@ -114,5 +118,19 @@ public class TurmaController{
     public ResponseEntity<Void> excluir(@PathVariable UUID id)
     {
         useCases.excluir(id); return ResponseEntity.noContent().build();
+    }
+
+    // NOVO ENDPOINT: alunos de uma turma
+    @Operation(
+            summary = "Lista alunos de uma turma",
+            description = "Retorna todos os alunos cadastrados na turma informada.",
+            security = @SecurityRequirement(name = "bearer-jwt")
+    )
+    @ApiResponses({ @ApiResponse(responseCode = "200", description = "OK") })
+    @GetMapping("/{id}/alunos")
+    public List<AlunoResponse> alunosDaTurma(@PathVariable UUID id) {
+        return alunoUseCases.listarPorTurma(id).stream()
+                .map(a -> new AlunoResponse(a.getId(), a.getNome(), a.getEmail(), a.getTurmaId()))
+                .collect(Collectors.toList());
     }
 }

@@ -8,7 +8,6 @@ import com.example.api_aluno.ports.out.AlunoRepositoryPort;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.UUID;
@@ -17,37 +16,30 @@ import java.util.UUID;
 public class AlunoRepositoryAdapter implements AlunoRepositoryPort {
     private final SpringDataAlunoRepository repo;
     private final AlunoEntityMapper mapper;
-
     public AlunoRepositoryAdapter(SpringDataAlunoRepository r, AlunoEntityMapper m){
         this.repo=r;this.mapper=m;
     }
-
     @Override
     public Aluno salvar(Aluno a){
         AlunoEntity e=mapper.toEntity(a);
         return mapper.toDomain(repo.save(e));
     }
-
     @Override
     public Optional<Aluno> buscarPorId(UUID id){
         return repo.findById(id).map(mapper::toDomain);
     }
-
     @Override
     public List<Aluno> listar(){
         return repo.findAll().stream().map(mapper::toDomain).collect(Collectors.toList());
     }
-
     @Override
     public boolean existsByEmail(String email){
         return repo.existsByEmail(email);
     }
-
     @Override
     public void deleteById(UUID id){
         repo.deleteById(id);
     }
-
     @Override
     public Page<Aluno> buscarPorNomeOuEmail(String nome, String email, Pageable pageable){
         var page = repo.findByNomeContainingIgnoreCaseOrEmailContainingIgnoreCase(
@@ -56,5 +48,11 @@ public class AlunoRepositoryAdapter implements AlunoRepositoryPort {
                 pageable
                                                                                  );
         return page.map(mapper::toDomain);
+    }
+
+    // NOVO: todos os alunos da turma
+    @Override
+    public List<Aluno> buscarPorTurmaId(UUID turmaId) {
+        return repo.findByTurma_Id(turmaId).stream().map(mapper::toDomain).collect(Collectors.toList());
     }
 }

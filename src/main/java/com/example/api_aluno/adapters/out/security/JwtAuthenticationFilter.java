@@ -1,4 +1,3 @@
-
 package com.example.api_aluno.adapters.out.security;
 
 import com.example.api_aluno.domain.usuario.Perfil;
@@ -15,22 +14,18 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
     private final TokenProviderPort tokenProvider;
     private final UsuarioRepositoryPort usuarioRepository;
-
     public JwtAuthenticationFilter(TokenProviderPort tokenProvider, UsuarioRepositoryPort usuarioRepository) {
         this.tokenProvider = tokenProvider;
         this.usuarioRepository = usuarioRepository;
     }
-
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -48,7 +43,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
     }
-
     private UsernamePasswordAuthenticationToken buildAuthentication(Usuario usuario) {
         Set<GrantedAuthority> authorities = usuario.getPerfis() == null ? Set.of() : usuario.getPerfis().stream()
                 .map(Perfil::name)

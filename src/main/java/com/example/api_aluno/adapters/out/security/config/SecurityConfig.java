@@ -18,7 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-
     @Bean
     JwtAuthenticationFilter jwtAuthenticationFilter(TokenProviderPort tokenProviderPort,
                                                     UsuarioRepositoryPort usuarioRepositoryPort) {

@@ -8,20 +8,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.UUID;
-
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.media.*;
-
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
-
 import io.swagger.v3.oas.annotations.responses.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -109,7 +105,7 @@ public class AlunoController{
             security = @SecurityRequirement(name = "bearer-jwt")
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Excluído"),
+            @ApiResponse(responseCode = "204", description = "Excluída"),
             @ApiResponse(responseCode = "401", description = "Não autenticado")
     })
     @DeleteMapping("/{id}")
@@ -118,7 +114,7 @@ public class AlunoController{
         return ResponseEntity.noContent().build();
     }
 
-    // ---- NOVOS ENDPOINTS ----
+    // ---- NOVOS ENDPOINTS / EXISTENTES ----
     @Operation(
             summary = "Filtra alunos (paginado)",
             description = "Filtra por nome e/ou e-mail. Retorna página de resultados.",
@@ -131,9 +127,7 @@ public class AlunoController{
             @Parameter(name = "size", description = "Tamanho da página"),
             @Parameter(name = "sort", description = "Ordenação, ex: nome,asc")
     })
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "OK")
-    })
+    @ApiResponses({ @ApiResponse(responseCode = "200", description = "OK") })
     @GetMapping("/filtro")
     public ResponseEntity<Page<AlunoResponse>> filtrar(
             @RequestParam(required = false) String nome,

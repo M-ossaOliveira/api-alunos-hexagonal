@@ -1,7 +1,6 @@
 package com.example.api_aluno.ports.out;
 
 import com.example.api_aluno.domain.usuario.Usuario;
-
 import java.util.Optional;
 import java.util.UUID;
 

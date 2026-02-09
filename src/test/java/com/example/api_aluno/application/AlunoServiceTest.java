@@ -1,4 +1,5 @@
 package com.example.api_aluno.application;
+
 import com.example.api_aluno.domain.aluno.Aluno;
 import com.example.api_aluno.ports.out.*;
 import org.junit.jupiter.api.Test;

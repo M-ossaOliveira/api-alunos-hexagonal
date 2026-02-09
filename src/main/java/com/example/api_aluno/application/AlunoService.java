@@ -6,7 +6,6 @@ import com.example.api_aluno.ports.out.AlunoRepositoryPort;
 import com.example.api_aluno.ports.out.TurmaRepositoryPort;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,12 +14,10 @@ import java.util.UUID;
 public class AlunoService implements AlunoUseCases {
     private final AlunoRepositoryPort alunoRepository;
     private final TurmaRepositoryPort turmaRepository;
-
     public AlunoService(AlunoRepositoryPort alunoRepository, TurmaRepositoryPort turmaRepository) {
         this.alunoRepository = alunoRepository;
         this.turmaRepository = turmaRepository;
     }
-
     @Override
     public Aluno cadastrar(String nome, String email, UUID turmaId) {
         if (nome == null || nome.isBlank()) {
@@ -38,17 +35,14 @@ public class AlunoService implements AlunoUseCases {
         Aluno novo = new Aluno(UUID.randomUUID(), nome, email, turmaId);
         return alunoRepository.salvar(novo);
     }
-
     @Override
     public Optional<Aluno> buscarPorId(UUID id) {
         return alunoRepository.buscarPorId(id);
     }
-
     @Override
     public List<Aluno> listar() {
         return alunoRepository.listar();
     }
-
     @Override
     public Aluno atualizar(UUID id, String nome, String email, UUID turmaId) {
         if (id == null) throw new IllegalArgumentException("id é obrigatório");
@@ -60,13 +54,11 @@ public class AlunoService implements AlunoUseCases {
         Aluno atualizado = new Aluno(id, nome, email, turmaId);
         return alunoRepository.salvar(atualizado);
     }
-
     @Override
     public void excluir(UUID id) {
         if (id == null) throw new IllegalArgumentException("id é obrigatório");
         alunoRepository.deleteById(id);
     }
-
     @Override
     public Page<Aluno> filtrar(String nome, String email, Pageable pageable) {
         return alunoRepository.buscarPorNomeOuEmail(
@@ -74,5 +66,9 @@ public class AlunoService implements AlunoUseCases {
                 email == null ? "" : email.trim(),
                 pageable
                                                    );
+    }
+    @Override
+    public List<Aluno> listarPorTurma(UUID turmaId) {
+        return alunoRepository.buscarPorTurmaId(turmaId);
     }
 }
