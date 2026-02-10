@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AlunoExportControllerTest {
     @Autowired MockMvc mvc;
     @MockBean AlunoUseCases useCases;
-    // Beans exigidos pelo JwtAuthenticationFilter
+    // Beans exigidos pelo @OneToMany($params$)
     @MockBean TokenProviderPort tokenProviderPort;
     @MockBean UsuarioRepositoryPort usuarioRepositoryPort;
 

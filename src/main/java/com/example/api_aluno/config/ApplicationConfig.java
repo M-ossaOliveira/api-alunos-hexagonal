@@ -10,7 +10,6 @@ import com.example.api_aluno.ports.out.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
 /*O que faz: expõe beans para os casos de uso (ports de entrada)
  * instanciando as implementações (UsuarioService etc).
  *Por que existe: mantém a aplicação mais explícita e modular,
@@ -32,12 +31,11 @@ public class ApplicationConfig {
     AlunoUseCases alunoUseCases(AlunoRepositoryPort alunoRepositoryPort,
                                 TurmaRepositoryPort turmaRepositoryPort) {
         return new AlunoService(alunoRepositoryPort, turmaRepositoryPort);
-
     }
 
     @Bean
-    TurmaUseCases turmaUseCases(TurmaRepositoryPort turmaRepositoryPort) {
-        return new TurmaService(turmaRepositoryPort);
+    TurmaUseCases turmaUseCases(TurmaRepositoryPort turmaRepositoryPort,
+                                AlunoRepositoryPort alunoRepositoryPort) { // <-- novo parâmetro
+        return new TurmaService(turmaRepositoryPort, alunoRepositoryPort);  // <-- injeta alunoRepository
     }
 }
-
