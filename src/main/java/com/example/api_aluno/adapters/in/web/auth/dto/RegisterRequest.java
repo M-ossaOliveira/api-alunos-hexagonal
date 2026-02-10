@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class RegisterRequest {
     @NotBlank(message = "username é obrigatório")
-    @Pattern(regexp = "^[a-zA-Z0-9._-]{3,30}$",
+    @Pattern(regexp = "^[\\p{L} ]{3,30}$",
             message = "username deve conter 3-30 chars (letras, números, . _ -)")
     private String username;
 

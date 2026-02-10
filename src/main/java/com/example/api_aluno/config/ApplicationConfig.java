@@ -1,5 +1,4 @@
 package com.example.api_aluno.config;
-
 import com.example.api_aluno.application.AlunoService;
 import com.example.api_aluno.application.TurmaService;
 import com.example.api_aluno.application.UsuarioService;
@@ -9,7 +8,6 @@ import com.example.api_aluno.ports.in.TurmaUseCases;
 import com.example.api_aluno.ports.out.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 /*O que faz: expõe beans para os casos de uso (ports de entrada)
  * instanciando as implementações (UsuarioService etc).
  *Por que existe: mantém a aplicação mais explícita e modular,
@@ -26,16 +24,13 @@ public class ApplicationConfig {
                               TokenProviderPort tokenProviderPort) {
         return new UsuarioService(usuarioRepositoryPort, passwordEncoderPort, tokenProviderPort);
     }
-
     @Bean
     AlunoUseCases alunoUseCases(AlunoRepositoryPort alunoRepositoryPort,
                                 TurmaRepositoryPort turmaRepositoryPort) {
         return new AlunoService(alunoRepositoryPort, turmaRepositoryPort);
     }
-
     @Bean
-    TurmaUseCases turmaUseCases(TurmaRepositoryPort turmaRepositoryPort,
-                                AlunoRepositoryPort alunoRepositoryPort) { // <-- novo parâmetro
-        return new TurmaService(turmaRepositoryPort, alunoRepositoryPort);  // <-- injeta alunoRepository
+    TurmaUseCases turmaUseCases(TurmaRepositoryPort turmaRepositoryPort) {
+        return new TurmaService(turmaRepositoryPort);
     }
 }
