@@ -8,7 +8,8 @@ public class AlunoRequest {
     @NotBlank
     private String nome;
     @NotBlank
-    @Email
+    @Email(message="formato do e-mail inválido",
+            regexp="^[a-z0-9.+-]+@[a-z0-9.-]+\\.[a-z]{2,}$")
     private String email;
     private UUID turmaId; // opcional
 
