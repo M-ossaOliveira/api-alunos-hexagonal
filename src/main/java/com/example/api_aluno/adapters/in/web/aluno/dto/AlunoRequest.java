@@ -2,10 +2,14 @@ package com.example.api_aluno.adapters.in.web.aluno.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 import java.util.UUID;
 
 public class AlunoRequest {
     @NotBlank
+    @Pattern(regexp = "^[a-zA-Z]{3,30}$",
+            message = "nome deve conter 3-30 chars (letras)")
     private String nome;
     @NotBlank
     @Email(message="formato do e-mail inválido",
