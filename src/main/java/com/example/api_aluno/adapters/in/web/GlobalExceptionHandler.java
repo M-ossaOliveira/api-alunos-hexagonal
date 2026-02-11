@@ -5,10 +5,46 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+
+// NOVOS imports para validação
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.validation.FieldError;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+// (Opcional) Violação em parâmetros (query/path)
+import jakarta.validation.ConstraintViolationException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    // 400 – Bean Validation no corpo (@Valid DTO)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
+        Map<String, String> fieldErrors = ex.getBindingResult().getFieldErrors().stream()
+                .collect(Collectors.toMap(
+                        FieldError::getField,
+                        DefaultMessageSourceResolvable::getDefaultMessage,
+                        (a, b) -> a,
+                        LinkedHashMap::new
+                                         ));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("error", "Dados inválidos", "fields", fieldErrors));
+    }
+
+    // (Opcional) 400 – Bean Validation em parâmetros (ex.: @RequestParam, @PathVariable)
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Map<String, Object>> handleConstraintViolation(ConstraintViolationException ex) {
+        Map<String, String> fieldErrors = ex.getConstraintViolations().stream()
+                .collect(Collectors.toMap(
+                        v -> v.getPropertyPath().toString(),
+                        jakarta.validation.ConstraintViolation::getMessage,
+                        (a, b) -> a,
+                        LinkedHashMap::new
+                                         ));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("error", "Parâmetros inválidos", "fields", fieldErrors));
+    }
 
     // 400 – Regras de validação/negócio propagadas pelas services
     @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
@@ -34,7 +70,7 @@ public class GlobalExceptionHandler {
                 .body(Map.of("error", "Acesso negado"));
     }
 
-    // 404 – Rota/handler não encontrado (requer prop. para lançar NoHandlerFoundException)
+    // 404 – Rota/handler não encontrado
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<Map<String, String>> handleNotFound(NoHandlerFoundException ex) {
         return ResponseEntity

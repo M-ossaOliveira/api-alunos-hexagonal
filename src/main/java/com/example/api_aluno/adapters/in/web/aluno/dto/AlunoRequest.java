@@ -1,22 +1,25 @@
 package com.example.api_aluno.adapters.in.web.aluno.dto;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.*;
 import java.util.UUID;
 
 public class AlunoRequest {
+
     @NotBlank
-    @Pattern(
-            regexp = "^[\\p{L} ]{3,30}$",
-            message = "nome deve conter 3-30 letras (pode ter espaço e acentos)"
+    @Schema(
+            description = "Nome do Aluno",
+            example = "Ana Maria da Silva"
     )
+    @Size(min = 3, max = 60, message = "nome deve ter entre 3 e 60 caracteres")
     private String nome;
 
     @NotBlank
-    @Email(message="formato do e-mail inválido", regexp="^[a-z0-9.+-]+@[a-z0-9.-]+\\.[a-z]{2,}$")
+    @Email(message = "formato do e-mail inválido")
     private String email;
 
-    private UUID turmaId; // opcional
+    // opcional
+    private UUID turmaId;
 
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
